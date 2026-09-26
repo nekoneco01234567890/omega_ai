@@ -1,0 +1,15 @@
+from dataclasses import dataclass
+from typing import Any
+
+
+@dataclass(frozen=True)
+class Event:
+    type: str
+    data: Any
+
+
+def observe(input_data: Any) -> Event:
+    return Event(
+        type="observation",
+        data=input_data,
+    )

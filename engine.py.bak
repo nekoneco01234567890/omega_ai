@@ -1,0 +1,13 @@
+from typing import Any
+
+from state import AIState
+
+
+def run_engine(state: AIState) -> dict[str, Any]:
+    return {
+        "type": "result",
+        "goal": state.goal,
+        "known_facts": len(state.facts),
+        "known_hypotheses": len(state.hypotheses),
+        "unknowns": len(state.unknowns),
+    }
