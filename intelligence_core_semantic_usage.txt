@@ -1,0 +1,368 @@
+capability_runtime_integration_test.py:10:def run_case(name, external_status):
+capability_runtime_integration_test.py:24:            external_status=external_status,
+capability_runtime_integration_test.py:40:                "status": store.get_status(
+claim_semantics_test.py:26:            store.get_status("E1"),
+claim_semantics_test.py:34:            store.get_status("E1"),
+claim_semantics_test.py:44:            store.get_status("E1"),
+claim_semantics_test.py:48:        store.set_status("E1", "FAILED")
+claim_semantics_test.py:55:            store.get_status("E1"),
+claim_semantics_test.py:59:        store.set_status("E1", "SUCCEEDED")
+claim_semantics_test.py:66:            store.get_status("E1"),
+claim_semantics_test.py:83:            store.get_status("E2"),
+core.py:4:from observation import observe
+crash_boundary_matrix.py:31:        core.step("OBSERVATION")
+crash_boundary_matrix.py:76:                "effect_status": restarted_effect_store.get_status(
+crash_execution_matrix.py:42:        status = effect_store.get_status(effect_id)
+crash_execution_matrix.py:47:            "status": status,
+crash_execution_matrix.py:59:        core.step("OBSERVATION")
+crash_execution_matrix.py:122:            external_status="UNKNOWN"
+crash_execution_matrix.py:143:        effect_store.set_status(
+e2e_audit_test.py:53:            RecoveryCapability(external_status="EXECUTED"),
+e2e_audit_test.py:61:        print("FINAL_STATUS:", restarted_store.get_status(effect["effect_id"]))
+effect_persistence_test.py:21:        _, effects = core.step("OBSERVATION")
+effect_persistence_test.py:58:            "STATUS_RESTORED:",
+effect_persistence_test.py:59:            store2.get_status(effect_id),
+engine.py:6:from observation import Event
+integration_restart_test.py:68:        pending_status = store1.get_status(
+integration_restart_test.py:74:            pending_status == "PENDING",
+integration_restart_test.py:96:            external_status="EXECUTED"
+integration_restart_test.py:105:            "RECOVERY_STATUS:",
+integration_restart_test.py:106:            recovery["status"],
+integration_restart_test.py:115:            "FINAL_EFFECT_STATUS:",
+integration_restart_test.py:116:            store2.get_status(
+intelligence_core.py:8:    Keeps experience, evaluates hypotheses, and explicitly exposes
+intelligence_core.py:9:    conflicting experience for the same observation.
+intelligence_core.py:13:        self.experiences = []
+intelligence_core.py:16:    def _find_related_experiences(self, observation):
+intelligence_core.py:18:            experience
+intelligence_core.py:19:            for experience in self.experiences
+intelligence_core.py:20:            if experience["observation"] == observation
+intelligence_core.py:23:    def _find_related_experience(self, observation):
+intelligence_core.py:24:        related = self._find_related_experiences(observation)
+intelligence_core.py:31:    def _select_hypothesis(self, hypotheses, experience):
+intelligence_core.py:35:        if experience is not None:
+intelligence_core.py:36:            for hypothesis in hypotheses:
+intelligence_core.py:37:                if hypothesis["prediction"] == experience["actual_result"]:
+intelligence_core.py:38:                    return hypothesis
+intelligence_core.py:42:    def cycle(self, observation, hypotheses, actual_result):
+intelligence_core.py:45:        related_experiences = self._find_related_experiences(
+intelligence_core.py:46:            observation
+intelligence_core.py:50:            related_experiences[-1]
+intelligence_core.py:51:            if related_experiences
+intelligence_core.py:55:        selected = self._select_hypothesis(
+intelligence_core.py:61:        matched = prediction == actual_result
+intelligence_core.py:64:            experience["actual_result"]
+intelligence_core.py:65:            for experience in related_experiences
+intelligence_core.py:68:        conflict = (
+intelligence_core.py:70:            and actual_result not in previous_results
+intelligence_core.py:73:        hypothesis_status = {}
+intelligence_core.py:75:        for hypothesis in hypotheses:
+intelligence_core.py:76:            hypothesis_status[hypothesis["id"]] = (
+intelligence_core.py:77:                "CONFIRMED"
+intelligence_core.py:78:                if hypothesis["prediction"] == actual_result
+intelligence_core.py:79:                else "REFUTED"
+intelligence_core.py:82:        experience = {
+intelligence_core.py:84:            "observation": deepcopy(observation),
+intelligence_core.py:85:            "hypothesis_id": selected["id"],
+intelligence_core.py:87:            "actual_result": actual_result,
+intelligence_core.py:91:        self.experiences.append(experience)
+intelligence_core.py:93:        if conflict:
+intelligence_core.py:94:            status = "CONFLICT"
+intelligence_core.py:96:            status = "UPDATED"
+intelligence_core.py:99:            "status": status,
+intelligence_core.py:102:            "actual_result": actual_result,
+intelligence_core.py:103:            "used_experience": related is not None,
+intelligence_core.py:105:            "conflict": conflict,
+intelligence_core.py:106:            "hypothesis_status": hypothesis_status,
+intelligence_core_adversarial_test.py:14:        observation={"signal": "A"},
+intelligence_core_adversarial_test.py:19:        actual_result="X",
+intelligence_core_adversarial_test.py:28:        observation={"signal": "A"},
+intelligence_core_adversarial_test.py:33:        actual_result="Y",
+intelligence_core_adversarial_test.py:36:    print("OLD_EXPERIENCE:", r1["actual_result"])
+intelligence_core_adversarial_test.py:37:    print("NEW_RESULT:", r2["actual_result"])
+intelligence_core_adversarial_test.py:42:        observation={"signal": "A"},
+intelligence_core_adversarial_test.py:47:        actual_result="Y",
+intelligence_core_adversarial_test.py:56:        "stale experience was not overridden"
+intelligence_core_adversarial_test.py:59:    print("=== ADVERSARIAL EXPERIENCE TEST ===")
+intelligence_core_baseline_test.py:32:def core_predict(core, observation, hypotheses, result):
+intelligence_core_baseline_test.py:34:        observation={"signal": observation},
+intelligence_core_baseline_test.py:36:        actual_result=result,
+intelligence_core_conflict_test.py:9:def run_cycle(core, actual_result):
+intelligence_core_conflict_test.py:11:        observation={"signal": "A"},
+intelligence_core_conflict_test.py:16:        actual_result=actual_result,
+intelligence_core_conflict_test.py:38:        "A: stable experience was not retained"
+intelligence_core_conflict_test.py:50:    conflict = IntelligenceCore()
+intelligence_core_conflict_test.py:52:    run_cycle(conflict, "X")
+intelligence_core_conflict_test.py:53:    r2 = run_cycle(conflict, "Y")
+intelligence_core_conflict_test.py:55:    print("CONFLICT_RESULT:", r2)
+intelligence_core_conflict_test.py:58:        r2.get("conflict") is True,
+intelligence_core_conflict_test.py:59:        "B: conflict was not detected"
+intelligence_core_conflict_test.py:63:        r2.get("status") == "CONFLICT",
+intelligence_core_conflict_test.py:64:        "B: conflict status was not exposed"
+intelligence_core_conflict_test.py:71:    r3 = run_cycle(conflict, "X")
+intelligence_core_conflict_test.py:73:    print("POST_CONFLICT_RESULT:", r3)
+intelligence_core_conflict_test.py:76:        r3.get("conflict") is True,
+intelligence_core_conflict_test.py:77:        "C: conflict state disappeared without resolution"
+intelligence_core_conflict_test.py:80:    print("=== CONFLICT EXPERIENCE TEST ===")
+intelligence_core_conflict_test.py:82:    print("CONFLICT:", r2["status"])
+intelligence_core_conflict_test.py:83:    print("POST_CONFLICT:", r3["status"])
+intelligence_core_diagnostic_test.py:6:        observation={"signal": signal},
+intelligence_core_diagnostic_test.py:11:        actual_result=result,
+intelligence_core_diagnostic_test.py:35:          [s1["actual_result"], s2["actual_result"], s3["actual_result"]])
+intelligence_core_diagnostic_test.py:38:        all(r["actual_result"] == "X" for r in [s1, s2, s3]),
+intelligence_core_diagnostic_test.py:56:          a1["actual_result"],
+intelligence_core_diagnostic_test.py:57:          a2["actual_result"],
+intelligence_core_diagnostic_test.py:58:          a3["actual_result"],
+intelligence_core_diagnostic_test.py:59:          a4["actual_result"])
+intelligence_core_diagnostic_test.py:63:        "H2: state A1 did not retain its own experience"
+intelligence_core_diagnostic_test.py:68:        "H2: state A2 did not retain its own experience"
+intelligence_core_diagnostic_test.py:84:          [t1["actual_result"],
+intelligence_core_diagnostic_test.py:85:           t2["actual_result"],
+intelligence_core_diagnostic_test.py:86:           t3["actual_result"],
+intelligence_core_diagnostic_test.py:87:           t4["actual_result"]])
+intelligence_core_diagnostic_test.py:112:          [n["actual_result"] for n in [n1, n2, n3, n4, n5, n6]])
+intelligence_core_diagnostic_test.py:129:    print("H5_EXPERIENCE_FIELDS:",
+intelligence_core_diagnostic_test.py:133:          sorted(quality.experiences[0].keys()))
+intelligence_core_diagnostic_test.py:138:    print("NO CONFLICT POLICY SELECTED")
+intelligence_core_expression_compare.py:4:    Hypothesis,
+intelligence_core_expression_compare.py:13:    for observation, hypotheses, actual in cases:
+intelligence_core_expression_compare.py:16:                observation,
+intelligence_core_expression_compare.py:29:    for observation, hypotheses, actual in cases:
+intelligence_core_expression_compare.py:31:            Hypothesis(
+intelligence_core_expression_compare.py:39:            observation,
+intelligence_core_generalization_test.py:12:        observation={"signal": signal},
+intelligence_core_generalization_test.py:14:        actual_result=result,
+intelligence_core_generalization_test.py:50:    print("  used_experience:", r["used_experience"])
+intelligence_core_generalization_test.py:51:    print("  actual:", r["actual_result"])
+intelligence_core_generalization_test.py:69:    print("  used_experience:", r["used_experience"])
+intelligence_core_observation_state_test.py:13:    for observation, result in history:
+intelligence_core_observation_state_test.py:15:            observation=observation,
+intelligence_core_observation_state_test.py:17:            actual_result=result,
+intelligence_core_observation_state_test.py:21:        observation=current,
+intelligence_core_observation_state_test.py:23:        actual_result=current.get("_actual"),
+intelligence_core_observation_state_test.py:27:    print("  observation:", current)
+intelligence_core_observation_state_test.py:29:    print("  used_experience:", result["used_experience"])
+intelligence_core_observation_state_test.py:30:    print("  conflict:", result["conflict"])
+intelligence_core_observation_state_test.py:31:    print("  status:", result["status"])
+intelligence_core_observation_state_test.py:36:    print("=== OBSERVATION / STATE SEPARATION TEST ===")
+intelligence_core_observation_state_test.py:40:        "A_SAME_OBSERVATION",
+intelligence_core_observation_state_test.py:68:        "E_DIFFERENT_OBSERVATION",
+intelligence_core_relation_test.py:10:def cycle(core, observation, result):
+intelligence_core_relation_test.py:12:        observation=observation,
+intelligence_core_relation_test.py:14:        actual_result=result,
+intelligence_core_relation_test.py:61:    print("  used_experience:", r1["used_experience"])
+intelligence_core_relation_test.py:62:    print("  actual:", r1["actual_result"])
+intelligence_core_relation_test.py:98:    print("  used_experience:", r2["used_experience"])
+intelligence_core_relation_test.py:99:    print("  actual:", r2["actual_result"])
+intelligence_core_relation_test.py:131:    print("  used_experience:", r3["used_experience"])
+intelligence_core_relation_test.py:132:    print("  actual:", r3["actual_result"])
+intelligence_core_relation_test.py:173:    print("  no_memory_used_experience:",
+intelligence_core_relation_test.py:174:          no_memory_result["used_experience"])
+intelligence_core_relation_test.py:178:    print("  with_memory_used_experience:",
+intelligence_core_relation_test.py:179:          with_memory_result["used_experience"])
+intelligence_core_state_separation_test.py:10:def cycle(core, observation, result):
+intelligence_core_state_separation_test.py:12:        observation=observation,
+intelligence_core_state_separation_test.py:14:        actual_result=result,
+intelligence_core_state_separation_test.py:21:    print("  actual:", result["actual_result"])
+intelligence_core_state_separation_test.py:22:    print("  used_experience:", result["used_experience"])
+intelligence_core_state_separation_test.py:23:    print("  conflict:", result["conflict"])
+intelligence_core_state_separation_test.py:24:    print("  status:", result["status"])
+intelligence_core_state_separation_test.py:45:    show("S3_CONFLICT", r3)
+intelligence_core_test.py:14:        observation={"signal": "A"},
+intelligence_core_test.py:19:        actual_result="X",
+intelligence_core_test.py:22:    check(r1["status"] == "UPDATED", "A: update failed")
+intelligence_core_test.py:27:        observation={"signal": "A"},
+intelligence_core_test.py:32:        actual_result="X",
+intelligence_core_test.py:35:    check(r2["used_experience"] is True,
+intelligence_core_test.py:36:          "B: related experience was not used")
+intelligence_core_test.py:41:        observation={"signal": "B"},
+intelligence_core_test.py:46:        actual_result="Y",
+intelligence_core_test.py:50:        observation={"signal": "A"},
+intelligence_core_test.py:55:        actual_result="X",
+intelligence_core_test.py:58:    check(r3["used_experience"] is False,
+intelligence_core_test.py:59:          "C: unrelated experience affected decision")
+intelligence_core_test.py:65:        observation={"signal": "C"},
+intelligence_core_test.py:69:        actual_result="Y",
+intelligence_core_test.py:72:    check(r4["hypothesis_status"]["H1"] == "REFUTED",
+intelligence_core_test.py:73:          "D: hypothesis was not refuted")
+intelligence_core_test.py:77:        observation={"signal": "D"},
+intelligence_core_test.py:82:        actual_result="Y",
+intelligence_core_test.py:85:    check(r5["status"] == "UPDATED",
+intelligence_core_test.py:89:    print("RELATED_EXPERIENCE:", r2["used_experience"])
+intelligence_core_test.py:90:    print("UNRELATED_EXPERIENCE:", r3["used_experience"])
+intelligence_core_test.py:91:    print("REFUTATION:", r4["hypothesis_status"]["H1"])
+intelligence_core_test.py:92:    print("UNKNOWN_CASE:", r5["status"])
+intelligence_core_typed_experiment.py:9:class CycleStatus(Enum):
+intelligence_core_typed_experiment.py:10:    UPDATED = "UPDATED"
+intelligence_core_typed_experiment.py:11:    CONFLICT = "CONFLICT"
+intelligence_core_typed_experiment.py:14:class HypothesisStatus(Enum):
+intelligence_core_typed_experiment.py:15:    CONFIRMED = "CONFIRMED"
+intelligence_core_typed_experiment.py:16:    REFUTED = "REFUTED"
+intelligence_core_typed_experiment.py:20:class Hypothesis:
+intelligence_core_typed_experiment.py:26:class Experience:
+intelligence_core_typed_experiment.py:28:    observation: Any
+intelligence_core_typed_experiment.py:29:    hypothesis_id: str
+intelligence_core_typed_experiment.py:31:    actual_result: Any
+intelligence_core_typed_experiment.py:36:class CycleResult:
+intelligence_core_typed_experiment.py:37:    status: CycleStatus
+intelligence_core_typed_experiment.py:40:    actual_result: Any
+intelligence_core_typed_experiment.py:41:    used_experience: bool
+intelligence_core_typed_experiment.py:43:    conflict: bool
+intelligence_core_typed_experiment.py:44:    hypothesis_status: dict[str, HypothesisStatus]
+intelligence_core_typed_experiment.py:49:        self.experiences: list[Experience] = []
+intelligence_core_typed_experiment.py:52:    def _find_related_experiences(
+intelligence_core_typed_experiment.py:54:        observation: Any,
+intelligence_core_typed_experiment.py:55:    ) -> list[Experience]:
+intelligence_core_typed_experiment.py:57:            experience
+intelligence_core_typed_experiment.py:58:            for experience in self.experiences
+intelligence_core_typed_experiment.py:59:            if experience.observation == observation
+intelligence_core_typed_experiment.py:62:    def _select_hypothesis(
+intelligence_core_typed_experiment.py:64:        hypotheses: Sequence[Hypothesis],
+intelligence_core_typed_experiment.py:65:        experience: Experience | None,
+intelligence_core_typed_experiment.py:66:    ) -> Hypothesis:
+intelligence_core_typed_experiment.py:70:        if experience is not None:
+intelligence_core_typed_experiment.py:71:            for hypothesis in hypotheses:
+intelligence_core_typed_experiment.py:72:                if hypothesis.prediction == experience.actual_result:
+intelligence_core_typed_experiment.py:73:                    return hypothesis
+intelligence_core_typed_experiment.py:79:        observation: Any,
+intelligence_core_typed_experiment.py:80:        hypotheses: Sequence[Hypothesis],
+intelligence_core_typed_experiment.py:81:        actual_result: Any,
+intelligence_core_typed_experiment.py:82:    ) -> CycleResult:
+intelligence_core_typed_experiment.py:85:        related_experiences = self._find_related_experiences(
+intelligence_core_typed_experiment.py:86:            observation
+intelligence_core_typed_experiment.py:90:            related_experiences[-1]
+intelligence_core_typed_experiment.py:91:            if related_experiences
+intelligence_core_typed_experiment.py:95:        selected = self._select_hypothesis(
+intelligence_core_typed_experiment.py:101:        matched = prediction == actual_result
+intelligence_core_typed_experiment.py:104:            experience.actual_result
+intelligence_core_typed_experiment.py:105:            for experience in related_experiences
+intelligence_core_typed_experiment.py:108:        conflict = bool(previous_results) and (
+intelligence_core_typed_experiment.py:109:            actual_result not in previous_results
+intelligence_core_typed_experiment.py:112:        hypothesis_status = {
+intelligence_core_typed_experiment.py:113:            hypothesis.id: (
+intelligence_core_typed_experiment.py:114:                HypothesisStatus.CONFIRMED
+intelligence_core_typed_experiment.py:115:                if hypothesis.prediction == actual_result
+intelligence_core_typed_experiment.py:116:                else HypothesisStatus.REFUTED
+intelligence_core_typed_experiment.py:118:            for hypothesis in hypotheses
+intelligence_core_typed_experiment.py:121:        self.experiences.append(
+intelligence_core_typed_experiment.py:122:            Experience(
+intelligence_core_typed_experiment.py:124:                observation=deepcopy(observation),
+intelligence_core_typed_experiment.py:125:                hypothesis_id=selected.id,
+intelligence_core_typed_experiment.py:127:                actual_result=actual_result,
+intelligence_core_typed_experiment.py:132:        status = (
+intelligence_core_typed_experiment.py:133:            CycleStatus.CONFLICT
+intelligence_core_typed_experiment.py:134:            if conflict
+intelligence_core_typed_experiment.py:135:            else CycleStatus.UPDATED
+intelligence_core_typed_experiment.py:138:        return CycleResult(
+intelligence_core_typed_experiment.py:139:            status=status,
+intelligence_core_typed_experiment.py:142:            actual_result=actual_result,
+intelligence_core_typed_experiment.py:143:            used_experience=related is not None,
+intelligence_core_typed_experiment.py:145:            conflict=conflict,
+intelligence_core_typed_experiment.py:146:            hypothesis_status=hypothesis_status,
+intelligence_core_typed_experiment.py:150:def normalize(result: CycleResult) -> dict[str, Any]:
+intelligence_core_typed_experiment.py:152:        "status": result.status.value,
+intelligence_core_typed_experiment.py:155:        "actual_result": result.actual_result,
+intelligence_core_typed_experiment.py:156:        "used_experience": result.used_experience,
+intelligence_core_typed_experiment.py:158:        "conflict": result.conflict,
+intelligence_core_typed_experiment.py:159:        "hypothesis_status": {
+intelligence_core_typed_experiment.py:161:            for key, value in result.hypothesis_status.items()
+intelligence_core_uncertainty_test.py:12:        observation={"signal": signal},
+intelligence_core_uncertainty_test.py:14:        actual_result=result,
+intelligence_core_uncertainty_test.py:21:    print("  actual:", result["actual_result"])
+intelligence_core_uncertainty_test.py:22:    print("  used_experience:", result["used_experience"])
+intelligence_core_uncertainty_test.py:23:    print("  conflict:", result["conflict"])
+intelligence_core_uncertainty_test.py:24:    print("  status:", result["status"])
+intelligence_core_uncertainty_test.py:49:    show("U3_CONFLICT", r)
+main.py:25:    core.state.hypotheses.append("HYPOTHESIS_A")
+observation.py:16:        type="observation",
+pending_ambiguity_test.py:11:        "status": store.get_status(effect_id),
+pending_ambiguity_test.py:77:            "status": case_a["status"],
+pending_ambiguity_test.py:82:            "status": case_b["status"],
+pending_resolution_test.py:8:def run_case(name, external_status, execute_success=True):
+pending_resolution_test.py:27:            external_status=external_status,
+pending_resolution_test.py:31:        before = store.get_status(effect["effect_id"])
+pending_resolution_test.py:36:        status = store.get_status(effect["effect_id"])
+pending_resolution_test.py:38:        if status == "PENDING":
+pending_resolution_test.py:42:                store.set_status(
+pending_resolution_test.py:46:                result = "confirmed_executed"
+pending_resolution_test.py:52:                    store.set_status(
+pending_resolution_test.py:65:                result = "invalid_external_status"
+pending_resolution_test.py:71:                "query": external_status,
+pending_resolution_test.py:74:                "final": store.get_status(
+recovery_capability.py:7:        external_status: str,
+recovery_capability.py:11:        self.external_status = external_status
+recovery_capability.py:17:        return self.external_status
+recovery_runner_test.py:21:def run_case(name, external_status):
+recovery_runner_test.py:29:        capability = RecoveryCapability(external_status=external_status)
+recovery_runner_test.py:34:        statuses = {
+recovery_runner_test.py:35:            "E1": store.get_status("E1"),
+recovery_runner_test.py:36:            "E2": store.get_status("E2"),
+recovery_runner_test.py:41:        print("STATUSES:", statuses)
+runtime.py:27:        status = self.store.get_status(effect_id)
+runtime.py:29:        if status == "SUCCEEDED":
+runtime.py:32:                "status": "already_processed",
+runtime.py:39:            status = self.store.get_status(effect_id)
+runtime.py:41:            if status == "SUCCEEDED":
+runtime.py:44:                    "status": "already_processed",
+runtime.py:49:                "status": "recovery_required",
+runtime.py:54:            external_status = self.capability.query(effect)
+runtime.py:56:            if external_status == "EXECUTED":
+runtime.py:57:                self.store.set_status(effect_id, "SUCCEEDED")
+runtime.py:60:                    "status": "already_executed",
+runtime.py:63:            if external_status == "UNKNOWN":
+runtime.py:66:                    "status": "recovery_required",
+runtime.py:69:            if external_status != "NOT_EXECUTED":
+runtime.py:72:                    "status": "invalid_external_status",
+runtime.py:80:                    "status": "execution_failed",
+runtime.py:83:            self.store.set_status(effect_id, "SUCCEEDED")
+runtime.py:87:                "status": "executed",
+runtime.py:92:            self.store.set_status(effect_id, "FAILED")
+runtime.py:95:                "status": "execution_failed",
+runtime.py:103:        self.store.set_status(effect_id, "SUCCEEDED")
+runtime.py:107:            "status": "executed",
+runtime.py:117:        status = self.store.get_status(effect_id)
+runtime.py:119:        if status != "PENDING":
+runtime.py:122:                "status": "not_recoverable",
+runtime.py:123:                "current_status": status,
+runtime.py:126:        external_status = capability.query(effect)
+runtime.py:128:        if external_status == "EXECUTED":
+runtime.py:129:            self.store.set_status(effect_id, "SUCCEEDED")
+runtime.py:132:                "status": "succeeded",
+runtime.py:133:                "action": "confirmed_executed",
+runtime.py:136:        if external_status == "NOT_EXECUTED":
+runtime.py:140:                self.store.set_status(effect_id, "SUCCEEDED")
+runtime.py:143:                    "status": "succeeded",
+runtime.py:149:                "status": "execution_failed",
+runtime.py:153:        if external_status == "UNKNOWN":
+runtime.py:156:                "status": "recovery_required",
+runtime.py:162:            "status": "invalid_external_status",
+runtime_effect_integration_test.py:19:        _, effects = core.step("OBSERVATION")
+runtime_effect_integration_test.py:30:            store.get_status(effect["effect_id"]),
+runtime_effect_integration_test.py:43:            "FINAL_STATUS:",
+runtime_effect_integration_test.py:44:            store.get_status(effect["effect_id"]),
+runtime_effect_integration_test.py:56:            "FINAL_STATUS_AFTER_SECOND:",
+runtime_effect_integration_test.py:57:            store.get_status(effect["effect_id"]),
+state_machine_audit_test.py:23:        print("INITIAL:", store.get_status("AUDIT-1"))
+state_machine_audit_test.py:29:            store.get_status("AUDIT-1"),
+state_machine_audit_test.py:36:            store.get_status("AUDIT-1"),
+state_machine_audit_test.py:39:        store.set_status("AUDIT-1", "FAILED")
+state_machine_audit_test.py:43:            store.get_status("AUDIT-1"),
+state_machine_audit_test.py:49:            store.get_status("AUDIT-1"),
+state_machine_audit_test.py:52:        store.set_status("AUDIT-1", "SUCCEEDED")
+state_machine_audit_test.py:56:            store.get_status("AUDIT-1"),
+state_machine_audit_test.py:62:            store.get_status("AUDIT-1"),
+store.py:12:                status TEXT NOT NULL,
+store.py:31:    def get_status(self, effect_id: str):
+store.py:34:            SELECT status
+store.py:43:    def set_status(self, effect_id: str, status: str):
+store.py:46:            INSERT INTO effects(effect_id, status, effect_json)
+store.py:48:            ON CONFLICT(effect_id)
+store.py:49:            DO UPDATE SET status = excluded.status
+store.py:51:            (effect_id, status),
+store.py:60:            INSERT INTO effects(effect_id, status, effect_json)
+store.py:62:            ON CONFLICT(effect_id)
+store.py:94:            INSERT INTO effects(effect_id, status, effect_json)
+store.py:96:            ON CONFLICT(effect_id) DO NOTHING
+store.py:108:            SET status = 'PENDING'
+store.py:110:              AND status IN ('READY', 'FAILED')
+store.py:123:            WHERE status = 'PENDING'
