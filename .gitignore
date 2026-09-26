@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.db
+*.bak
+*.bak2
+*.before_*
