@@ -11,71 +11,14 @@ PHASE = {
 }
 
 MODULES = {
-    "observation.py": {
-        "role": "Observation Layer",
-        "responsibility": "観測を構造化してイベント化する。",
-    },
-
-    "intelligence_core.py": {
-        "role": "Intelligence Core",
-        "responsibility": [
-            "Experience保存",
-            "Hypothesis評価",
-            "Prediction生成",
-            "Conflict保持",
-        ],
-    },
-
-    "world_model.py": {
-        "role": "Knowledge Layer",
-        "responsibility": [
-            "Experience→Knowledge変換",
-            "stable判定",
-            "conflict判定",
-            "unknown判定",
-        ],
-    },
-
-    "reasoner.py": {
-        "role": "Decision Layer",
-        "responsibility": [
-            "PASS",
-            "HOLD",
-            "CONFLICT",
-            "UNKNOWN",
-        ],
-    },
-
-    "runtime.py": {
-        "role": "Execution Layer",
-        "responsibility": [
-            "Effect実行",
-            "Recovery",
-            "二重実行防止",
-        ],
-    },
-
-    "store.py": {
-        "role": "Persistence Layer",
-        "responsibility": [
-            "SQLite状態保存",
-            "Effect状態管理",
-        ],
-    },
-
-    "state_store.py": {
-        "role": "State Persistence",
-        "responsibility": "AI状態保存・復元",
-    },
-
-    "event_journal.py": {
-        "role": "Audit Layer",
-        "responsibility": [
-            "イベント記録",
-            "チェーン検証",
-            "改ざん検知",
-        ],
-    },
+    "observation.py": "観測を構造化",
+    "intelligence_core.py": "経験・仮説評価・矛盾保持",
+    "world_model.py": "経験→知識(stable/conflict/unknown)",
+    "reasoner.py": "PASS/HOLD/CONFLICT/UNKNOWN 判定",
+    "runtime.py": "実行・復旧・二重実行防止",
+    "store.py": "状態永続化(SQLite)",
+    "state_store.py": "AI状態保存・復元",
+    "event_journal.py": "イベント記録・改ざん検証",
 }
 
 PIPELINE = [
@@ -87,17 +30,8 @@ PIPELINE = [
 ]
 
 STATE_MODEL = {
-    "knowledge": [
-        "stable",
-        "conflict",
-        "unknown",
-    ],
-    "decision": [
-        "PASS",
-        "HOLD",
-        "CONFLICT",
-        "UNKNOWN",
-    ],
+    "knowledge": ["stable", "conflict", "unknown"],
+    "decision": ["PASS", "HOLD", "CONFLICT", "UNKNOWN"],
 }
 
 TEST_STATUS = {
@@ -107,6 +41,7 @@ TEST_STATUS = {
     "runtime_integration": "PASS",
     "recovery": "PASS",
     "event_journal": "PASS",
+    "world_model_v1_audit": "PASS",
 }
 
 NOT_IMPLEMENTED = [
