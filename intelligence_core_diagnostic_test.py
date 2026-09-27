@@ -1,3 +1,4 @@
+from dataclasses import asdict
 from intelligence_core import IntelligenceCore
 
 
@@ -130,7 +131,7 @@ def main():
           sorted(q1.keys()))
 
     print("H5_STORED_FIELDS:",
-          sorted(quality.experiences[0].keys()))
+          sorted(asdict(quality.experiences[0]).keys()))
 
     print()
     print("=== DIAGNOSTIC COMPLETE ===")
