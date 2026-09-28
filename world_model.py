@@ -2,6 +2,15 @@ from dataclasses import dataclass, field
 from copy import deepcopy
 
 
+def canonical_key(value):
+    if isinstance(value, dict):
+        return tuple((k, canonical_key(v)) for k, v in sorted(value.items()))
+    if isinstance(value, list):
+        return tuple(canonical_key(v) for v in value)
+    return value
+
+
+
 @dataclass(frozen=True)
 class Knowledge:
     observation: object
@@ -33,7 +42,7 @@ class WorldModel:
             observation = experience.observation
             actual_result = experience.actual_result
 
-        key = repr(observation)
+        key = canonical_key(observation)
 
         entry = self._history.setdefault(
             key,
@@ -48,7 +57,7 @@ class WorldModel:
         entry["count"] += 1
 
     def lookup(self, observation):
-        key = repr(observation)
+        key = canonical_key(observation)
 
         if key not in self._history:
             return Knowledge(observation=deepcopy(observation))
