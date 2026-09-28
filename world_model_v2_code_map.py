@@ -12,7 +12,6 @@ PHASE = {
 
 KNOWLEDGE_MODEL = {
     "FACT": "観測で確認済みの事実。",
-    "HYPOTHESIS": "未検証だが保持する仮説。",
     "CONFLICT": "矛盾している事実・仮説。",
     "UNKNOWN": "証拠不足で判断保留。",
 }
@@ -32,7 +31,6 @@ RESPONSIBILITY = {
 UPDATE_RULES = {
     "same_result": "FACTを強化（history_count増加）",
     "different_result": "CONFLICTへ追加",
-    "new_hypothesis": "HYPOTHESISへ保存",
     "no_evidence": "UNKNOWN維持",
 }
 
